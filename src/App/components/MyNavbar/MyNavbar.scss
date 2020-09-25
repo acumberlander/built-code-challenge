@@ -1,4 +1,27 @@
 .navbar-container {
 	position: fixed;
 	width: 100%;
+
+	.my-navbar {
+		display: flex;
+		justify-content: flex-start;
+		padding: 0 20px;
+		align-items: center;
+		height: 60px;
+		width: 100%;
+		background-color: lightgray;
+		margin-bottom: 100px;
+		position: fixed;
+		text-decoration: none;
+	}
+
+	#nav-header {
+		margin-right: 100px;
+	}
+
+	.nav-links {
+		text-decoration: none;
+		color: black;
+		margin: 0 15px;
+	}
 }
