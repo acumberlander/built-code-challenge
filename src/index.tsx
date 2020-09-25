@@ -4,11 +4,15 @@ import './index.scss';
 import App from './App/App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import store from './App/store/configureStore';
+import { Provider } from 'react-redux';
 
 ReactDOM.render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
+	<React.Fragment>
+		<Provider store={store}>
+			<App />
+		</Provider>
+	</React.Fragment>,
 	document.getElementById('root')
 );
 

@@ -1,0 +1,29 @@
+.loan-card-container {
+	border: 1px solid black;
+	height: 350px;
+	width: 450px;
+	margin-bottom: 30px;
+
+	.loan-details-wrapper {
+		display: flex;
+		text-align: left;
+		flex-direction: column;
+		height: 250px;
+		width: 100%;
+		padding: 0 15px;
+		h3 {
+			color: royalblue;
+		}
+
+		.loan-detail {
+			border-bottom: 1px solid lightslategray;
+			width: 100%;
+		}
+
+		.details-header {
+			margin: 0;
+			padding: 0;
+			font-weight: bold;
+		}
+	}
+}

@@ -1,0 +1,14 @@
+.loans-page-container {
+	padding: 100px 30px;
+
+	.loan-page-header-div {
+		text-align: left;
+	}
+
+	.loans-wrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+}
