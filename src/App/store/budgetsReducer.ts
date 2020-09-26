@@ -1,22 +1,14 @@
-export interface Budget {
-	totalBudget: number;
-	itemBudgets: ItemBudget[];
-}
-
-export interface ItemBudget {
-	totalItemBudget: number;
-}
+import { Budget } from '../types/Budget';
+import {
+	CreateBudgetAction,
+	DeleteBudgetAction,
+	CREATE_BUDGET,
+	DELETE_BUDGET,
+	BudgetActionTypes,
+} from '../types/budgetActions';
 
 export interface BudgetState {
 	budgets: Budget[];
-}
-
-export const CREATE_BUDGET = 'CREATE_BUDGET';
-export const DELETE_BUDGET = 'DELETE_BUDGET';
-
-export interface CreateBudgetAction {
-	type: typeof CREATE_BUDGET;
-	payload: Budget;
 }
 
 export const createBudgetAction = (budget: Budget): CreateBudgetAction => ({
@@ -24,14 +16,10 @@ export const createBudgetAction = (budget: Budget): CreateBudgetAction => ({
 	payload: budget,
 });
 
-export interface DeleteBudgetAction {
-	type: typeof DELETE_BUDGET;
-	meta: {
-		timestamp: number;
-	};
-}
-
-export type BudgetActionTypes = CreateBudgetAction | DeleteBudgetAction;
+export const deleteBudgetAction = (id: string): DeleteBudgetAction => ({
+	type: DELETE_BUDGET,
+	id: id,
+});
 
 export default function budgetsReducer(
 	state: BudgetState = { budgets: [] },
