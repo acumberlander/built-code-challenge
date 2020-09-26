@@ -1,41 +1,36 @@
-export interface Loan {
-	loanAmount: number;
-	collateralAmount: number;
-	// collateralItem: string;
-}
+import { Loan } from '../types/Loan';
+import {
+	CREATE_LOAN,
+	DELETE_LOAN,
+	LoanState,
+	LoanActionTypes,
+} from '../types/loanActions';
 
-export interface LoanState {
-	loans: Loan[];
-}
+const initialState = {
+	loans: [],
+};
 
-export const CREATE_LOAN = 'CREATE_LOAN';
-export const DELETE_LOAN = 'DELETE_LOAN';
+export const deleteLoanAction = (loan: Loan): LoanActionTypes => ({
+	type: DELETE_LOAN,
+	payload: loan,
+});
 
-export interface CreateLoanAction {
-	type: typeof CREATE_LOAN;
-	payload: Loan;
-}
-export const createLoanAction = (loan: Loan): CreateLoanAction => ({
+export const createLoanAction = (loan: Loan): LoanActionTypes => ({
 	type: CREATE_LOAN,
 	payload: loan,
 });
 
-export interface DeleteLoanAction {
-	type: typeof DELETE_LOAN;
-	meta: {
-		timestamp: number;
-	};
-}
-
-export type LoanActionTypes = CreateLoanAction | DeleteLoanAction;
-
 export default function loansReducer(
-	state: LoanState = { loans: [] },
+	state: LoanState = initialState,
 	action: LoanActionTypes
 ): LoanState {
 	switch (action.type) {
 		case CREATE_LOAN:
 			return { ...state, loans: [...state.loans, action.payload] };
+		// case DELETE_LOAN:
+		// 	return {
+		// 		...state.loans.filter((loan) => loan !== action.payload),
+		// 	};
 		default:
 			return state;
 	}
