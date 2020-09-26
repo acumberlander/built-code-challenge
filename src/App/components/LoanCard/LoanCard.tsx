@@ -28,6 +28,7 @@ const LoanCard = (props: {
 			</div>
 			<div id="see-budget-button-div">
 				<Button
+					onClick={() => alert('Sorry! Seeing the budget is not setup yet!')}
 					className="primary see-budget-button"
 					variant="contained"
 					color="primary"
