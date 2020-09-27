@@ -2,12 +2,20 @@ import React from 'react';
 import './LoanCard.scss';
 import { Button } from '@material-ui/core';
 
+/** I learned that you can't pass in multiple parameters into a fn component individually
+ * when using typescript in React. See Example
+ * Example: const LoanCard = ({id: string, loanReason: string, loanAmount: number}) => {} <-- This won't work
+ * You must pass in a props parameters where you will then set its type by filling in the
+ * needed values as see in the active code.
+ */
+
 const LoanCard = (props: {
 	id: string;
 	loanReason: string;
 	loanAmount: number;
 	collateralAmount: number;
 	collateralItem: string;
+	handleClick: any;
 }) => {
 	return (
 		<div key={props.id} className="card loan-card-container">
@@ -28,7 +36,7 @@ const LoanCard = (props: {
 			</div>
 			<div id="see-budget-button-div">
 				<Button
-					onClick={() => alert('Sorry! Seeing the budget is not setup yet!')}
+					onClick={() => props.handleClick(props)}
 					className="primary see-budget-button"
 					variant="contained"
 					color="primary"
