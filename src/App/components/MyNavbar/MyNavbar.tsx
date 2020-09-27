@@ -1,19 +1,12 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import './MyNavbar.scss';
-// import {
-// 	Collapse,
-// 	Navbar,
-// 	NavbarToggler,
-// 	NavbarBrand,
-// 	Nav,
-// 	NavItem,
-// 	NavLink,
-// } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { LoanState } from '../../types/loanActionModels';
 
 const MyNavbar: FunctionComponent = () => {
-	const [isOpen, setIsOpen] = useState(false);
-	const toggle = () => setIsOpen(!isOpen);
+	// @ts-ignore
+	const loans = useSelector((state) => (state.loans as LoanState).loans); // current loan state in the redux store
 	return (
 		<div className="navbar-container">
 			<nav className="my-navbar">
@@ -24,10 +17,7 @@ const MyNavbar: FunctionComponent = () => {
 					Request Loan
 				</Link>
 				<Link className="nav-links" to="/loans">
-					Loans
-				</Link>
-				<Link className="nav-links" to="/budget">
-					Budget
+					Loans({loans.length})
 				</Link>
 			</nav>
 		</div>

@@ -23,4 +23,7 @@ export interface DeleteLoanAction {
 	payload: Loan;
 }
 
-export type LoanActionTypes = CreateLoanAction | DeleteLoanAction;
+export type LoanActionTypes =
+	| CreateLoanAction
+	| DeleteLoanAction
+	| EditLoanAction;

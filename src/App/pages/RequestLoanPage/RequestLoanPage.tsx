@@ -1,35 +1,83 @@
-import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import './RequestLoanPage.scss';
 import { TextField, Button } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { createLoanAction } from '../../store/loansReducer';
+import { LoanState } from '../../types/loanActionModels';
+import store from '../../store/configureStore';
 
-interface NewInputProps {
-	submitRequest(info: number): void;
-}
-
-const RequestLoanPage: FunctionComponent<NewInputProps> = () => {
+const RequestLoanPage = () => {
 	const [requestedLoanAmount, setRequestedLoanAmount] = useState(0);
 	const [reasonForLoan, setReasonForLoan] = useState('');
-	const [collateralItem, setCollateralItem] = useState('');
 	const [collateralAmount, setCollateralAmount] = useState(0);
+	const [collateralItem, setCollateralItem] = useState('');
 
+	// @ts-ignore
+	const loans = useSelector((state) => (state.loans as LoanState).loans); // current loan state in the redux store
+
+	/** Input/state update functions. These functions allow for state to be updated
+	 * simultaneously with the input.
+	 */
 	const updateReqLoanAmount = (e: ChangeEvent<HTMLInputElement>) => {
 		setRequestedLoanAmount(parseInt(e.target.value));
 	};
+
+	/** Input/state update functions. These functions allow for state to be updated
+	 * simultaneously with the input.
+	 */
 	const updateReasonForLoan = (e: ChangeEvent<HTMLInputElement>) => {
 		setReasonForLoan(e.target.value);
 	};
+
+	/** Input/state update functions. These functions allow for state to be updated
+	 * simultaneously with the input.
+	 */
 	const updateCollateralItem = (e: ChangeEvent<HTMLInputElement>) => {
 		setCollateralItem(e.target.value);
 	};
+
+	/** Input/state update functions. These functions allow for state to be updated
+	 * simultaneously with the input.
+	 */
 	const updateCollateralAmount = (e: ChangeEvent<HTMLInputElement>) => {
 		setCollateralAmount(parseInt(e.target.value));
+	};
+
+	/** This is the loan object being passed into the form.
+	 * This object is also being passed in as a parameter (with a Type of Loan)
+	 * to the createLoanAction() function or action.
+	 */
+	const loanToPass = {
+		id: '',
+		loanReason: reasonForLoan,
+		loanAmount: requestedLoanAmount,
+		collateralAmount: collateralAmount,
+		collateralItem: collateralItem,
+	};
+
+	const submitRequest = () => {
+		if (requestedLoanAmount > collateralAmount) {
+			alert(
+				"Sorry.. You're request for this loan about has been denied. Your collateral must be greater than your request amount."
+			);
+			return;
+		}
+		let loadId: number =
+			loans.length === 0 ? 1 : parseInt(loans[loans.length - 1].id) + 1;
+		loanToPass.id = `${loadId}`;
+		store.dispatch(createLoanAction(loanToPass));
+		alert('Your loan was approved!');
+		setRequestedLoanAmount(0);
+		setReasonForLoan('');
+		setCollateralAmount(0);
+		setCollateralItem('');
 	};
 
 	return (
 		<div className="request-loan-container">
 			<div className="card">
 				<h2 className="card-header">Request a Loan</h2>
-				<form action="submit">
+				<form onSubmit={submitRequest}>
 					<div className="loan-inputs">
 						<div className="input-wrapper">
 							<p className="details-header">Reason for Loan</p>
@@ -77,10 +125,11 @@ const RequestLoanPage: FunctionComponent<NewInputProps> = () => {
 						</div>
 					</div>
 					<Button
-						onClick={() => alert('Sorry! Submit not setup yet!')}
+						onClick={submitRequest}
 						className="submit-btn"
 						variant="contained"
 						color="primary"
+						type="button"
 					>
 						Submit
 					</Button>
