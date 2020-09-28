@@ -3,41 +3,58 @@ import './LoansPage.scss';
 import { useSelector } from 'react-redux';
 import LoanCard from '../../components/LoanCard/LoanCard';
 import { LoanState } from '../../types/loanActionModels';
-import { BudgetState } from '../../types/budgetActionModels';
+import { BudgetState } from '../../types/budgetActionModel';
+import { CollateralState } from '../../types/collateralActionModel';
+import { createBudgetAction } from '../../store/budgetsReducer';
 import BudgetPage from '../BudgetPage/BudgetPage';
 import { Loan } from '../../types/Loan';
 import { Budget } from '../../types/Budget';
+import { Collateral } from '../../types/Collateral';
+import store from '../../store/configureStore';
 
 const LoansPage = () => {
 	const [seeBudget, setSeeBudget] = useState(false);
 	const [budget, setBudget] = useState({} as Budget);
+	const [collateral, setCollateral] = useState({} as Collateral);
 	// @ts-ignore
 	const loans = useSelector((state) => (state.loans as LoanState).loans);
 
-	const itemBudgets = useSelector(
+	const collaterals = useSelector(
 		// @ts-ignore
-		(state) => (state.budgets as BudgetState).itemBudgets
+		(state) => (state.collateral as CollateralState).collateral
 	);
 
 	const handleClick = (props: Loan) => {
-		let newItem = {
-			item: '',
-			weight: '',
-			budgeted: null,
-			spent: null,
-			remaining: null,
-			totalItemBudget: 0,
-		};
-
-		let newItemsArr = [newItem, newItem, newItem, newItem, newItem];
-		itemBudgets.push(...newItemsArr);
+		let newItemArray = [
+			{
+				id: '1',
+				item: '',
+				weight: '',
+				totalBudgetExpense: 0,
+				spent: 1234,
+				remaining: 123,
+			},
+			{
+				id: '2',
+				item: '',
+				weight: '',
+				totalBudgetExpense: 0,
+				spent: 1234,
+				remaining: 1234,
+			},
+		];
 
 		let budgetData = {
 			...props,
 			totalBudget: props.loanAmount,
-			itemBudgets: itemBudgets,
+			budgetExpenses: newItemArray,
 		};
 
+		/**
+		 * This will create a new budget everytime 'see budget' button is clicked.
+		 * This is not ideal, but I didn't have time to create a process by which it could check
+		 * if this action needed to be taken based on the id of the objects. */
+		store.dispatch(createBudgetAction(budgetData));
 		setBudget(budgetData);
 		setSeeBudget(true);
 	};
@@ -48,8 +65,10 @@ const LoansPage = () => {
 			id: loan.id,
 			loanReason: loan.loanReason,
 			loanAmount: loan.loanAmount,
-			collateralAmount: loan.collateralAmount,
-			collateralItem: loan.collateralItem,
+			collateral: {
+				collateralAmount: loan.collateral.collateralAmount,
+				collateralItem: loan.collateral.collateralItem,
+			},
 			handleClick: handleClick,
 		};
 
@@ -59,8 +78,7 @@ const LoansPage = () => {
 				id={loanProps.id}
 				loanReason={loanProps.loanReason}
 				loanAmount={loanProps.loanAmount}
-				collateralAmount={loanProps.collateralAmount}
-				collateralItem={loanProps.collateralItem}
+				collateral={loanProps.collateral}
 				handleClick={handleClick}
 			/>
 		);
@@ -69,13 +87,13 @@ const LoansPage = () => {
 	return (
 		<div className="loans-page-container">
 			{seeBudget ? (
-				<BudgetPage {...(budget as Budget)} />
+				<BudgetPage budget={budget} />
 			) : (
 				<>
 					<div className="loan-page-header-div">
 						<h1>Loans</h1>
+						<hr></hr>
 					</div>
-					<hr></hr>
 					<div className="grid-container loans-wrapper">{displayedLoans}</div>
 				</>
 			)}

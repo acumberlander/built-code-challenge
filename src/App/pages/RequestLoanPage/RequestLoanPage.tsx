@@ -3,6 +3,7 @@ import './RequestLoanPage.scss';
 import { TextField, Button } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { createLoanAction } from '../../store/loansReducer';
+import { createCollateralAction } from '../../store/collateralReducer';
 import { LoanState } from '../../types/loanActionModels';
 import store from '../../store/configureStore';
 
@@ -14,6 +15,11 @@ const RequestLoanPage = () => {
 
 	// @ts-ignore
 	const loans = useSelector((state) => (state.loans as LoanState).loans); // current loan state in the redux store
+
+	const collateralObj = useSelector(
+		// @ts-ignore
+		(state) => (state.collateral as CollateralState).collateral[0]
+	);
 
 	/** Input/state update functions. These functions allow for state to be updated
 	 * simultaneously with the input.
@@ -51,8 +57,10 @@ const RequestLoanPage = () => {
 		id: '',
 		loanReason: reasonForLoan,
 		loanAmount: requestedLoanAmount,
-		collateralAmount: collateralAmount,
-		collateralItem: collateralItem,
+		collateral: {
+			collateralAmount: collateralAmount,
+			collateralItem: collateralItem,
+		},
 	};
 
 	const submitRequest = () => {
@@ -63,9 +71,11 @@ const RequestLoanPage = () => {
 			return;
 		}
 		let loadId: number =
+			// Checking if loans array is empty to determine what id value should be set for each new item.
 			loans.length === 0 ? 1 : parseInt(loans[loans.length - 1].id) + 1;
 		loanToPass.id = `${loadId}`;
 		store.dispatch(createLoanAction(loanToPass));
+		store.dispatch(createCollateralAction(loanToPass.collateral));
 		alert('Your loan was approved!');
 		setRequestedLoanAmount(0);
 		setReasonForLoan('');
