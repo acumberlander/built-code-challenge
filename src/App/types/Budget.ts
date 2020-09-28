@@ -1,8 +1,10 @@
 export interface Budget {
+	id: string;
 	totalBudget: number;
-	itemBudgets: ItemBudget[];
+	budgetExpenses: BudgetExpense[];
 }
 
-export interface ItemBudget {
-	totalItemBudget: number;
+export interface BudgetExpense {
+	id: string;
+	totalBudgetExpense: number;
 }

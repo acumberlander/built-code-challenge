@@ -1,4 +1,4 @@
-import { Budget, ItemBudget } from './Budget';
+import { Budget } from './Budget';
 
 export const CREATE_BUDGET = 'CREATE_BUDGET';
 export const DELETE_BUDGET = 'DELETE_BUDGET';
@@ -6,7 +6,6 @@ export const EDIT_BUDGET = 'EDIT_BUDGET';
 
 export interface BudgetState {
 	budgets: Budget[];
-	itemBudgets: ItemBudget[];
 }
 
 export interface CreateBudgetAction {

@@ -1,6 +1,7 @@
 import React from 'react';
 import './LoanCard.scss';
 import { Button } from '@material-ui/core';
+import { Collateral } from '../../types/Collateral';
 
 /** I learned that you can't pass in multiple parameters into a fn component individually
  * when using typescript in React. See Example
@@ -13,8 +14,7 @@ const LoanCard = (props: {
 	id: string;
 	loanReason: string;
 	loanAmount: number;
-	collateralAmount: number;
-	collateralItem: string;
+	collateral: Collateral;
 	handleClick: any;
 }) => {
 	return (
@@ -27,11 +27,11 @@ const LoanCard = (props: {
 				</div>
 				<div className="loan-detail">
 					<p className="details-header">Collateral Amount</p>
-					<h3>${props.collateralAmount}</h3>
+					<h3>${props.collateral.collateralAmount}</h3>
 				</div>
 				<div className="loan-detail">
 					<p className="details-header">Collateral Item</p>
-					<h3>{props.collateralItem}</h3>
+					<h3>{props.collateral.collateralItem}</h3>
 				</div>
 			</div>
 			<div id="see-budget-button-div">

@@ -2,13 +2,11 @@ import { Budget } from '../types/Budget';
 import {
 	CreateBudgetAction,
 	DeleteBudgetAction,
-	EditBudgetAction,
 	CREATE_BUDGET,
 	DELETE_BUDGET,
-	EDIT_BUDGET,
 	BudgetActionTypes,
 	BudgetState,
-} from '../types/budgetActionModels';
+} from '../types/budgetActionModel';
 
 export const createBudgetAction = (budget: Budget): CreateBudgetAction => ({
 	type: CREATE_BUDGET,
@@ -20,18 +18,13 @@ export const deleteBudgetAction = (budget: Budget): DeleteBudgetAction => ({
 	payload: budget,
 });
 
-export const editBudgetAction = (budget: Budget): EditBudgetAction => ({
-	type: EDIT_BUDGET,
-	payload: budget,
-});
-
 export default function budgetsReducer(
-	state: BudgetState = { budgets: [], itemBudgets: [] },
+	state: BudgetState = { budgets: [] },
 	action: BudgetActionTypes
 ): BudgetState {
 	switch (action.type) {
 		case CREATE_BUDGET:
-			return { ...state, budgets: [...state.budgets, action.payload] };
+			return { budgets: [...state.budgets, action.payload] };
 		default:
 			return state;
 	}

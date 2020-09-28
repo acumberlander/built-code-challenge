@@ -11,7 +11,8 @@ class App extends Component {
 		return (
 			<div className="App">
 				<Router>
-					<MyNavbar />
+					{/* This test fails. I wasn't about to get this working in time. */}
+					<MyNavbar data-testid="my-navbar" />
 					<Switch>
 						<Route path="/" exact component={RequestLoanPage} />
 						<Route path="/loans" component={LoansPage} />
